@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import logging
+import sys
 
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -18,11 +20,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+logger = logging.getLogger("uvicorn.error")
+# logger.setLevel(logging.DEBUG)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World",
-             "wallList" : [
+def log(message):
+    with open("log.txt", "a") as file:
+        file.write(message + "\n")
+
+
+
+wallList = [
                  {
                     "id" : "1",
                     "title" : "Baby Ladder",
@@ -34,6 +41,14 @@ async def root():
                     "grade" : "V8"
                  },
              ]
+
+@app.get("/")
+async def root():
+    logger.debug("hey there!")
+    
+
+    return {"message": "Hello World",
+             "wallList" : wallList
              
              }
 
@@ -57,11 +72,18 @@ async def get_image(id: str=1):
 
 
 
+# =========== POSTING =============
 
-@app.get("/getImage/2")
-async def get_image():
-    imagePath = Path("../assets/images/climbing2.jpeg")
-    if not imagePath.is_file():
-        return ({"Path not found!"})
-    return FileResponse(imagePath)
+@app.post("/upload/")
+async def upload(data):
+    # Do something with the received data
+    log(f"Received: {data}")
 
+    wallList.append({
+                    "id" : "5",
+                    "title" : "Skin Ripper",
+                    "grade" : "V8"
+                 },)
+    
+    # Example: Processing and returning a response
+    return {"message" : "Data Recieved!"}

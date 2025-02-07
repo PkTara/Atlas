@@ -30,10 +30,12 @@ export default function DashboardScreen() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(wallData)
         };
-        fetch('https://reqres.in/api/posts', requestOptions)
+        fetch("http://127.0.0.1:8000/", requestOptions)
             .then(response => response.json())
             .then(data => {console.log("Data Recieved after posting")
                 console.log(data)} );
+
+        
 
         // JSON.stringify(wallData)
 
