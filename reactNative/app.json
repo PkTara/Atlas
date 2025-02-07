@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "climbingLog",
-    "slug": "climbingLog",
+    "name": "Atlas",
+    "slug": "Atlas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pktara.Atlas"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ed8bfff1-a489-4e94-a0f4-dcb647a03a13"
+      }
     }
   }
 }
