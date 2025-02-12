@@ -61,7 +61,7 @@ export default function WallList() {
 /> */}
             </View>
             
-            {(walls) ?    walls : <Text>walls is empty. Is fastapi running?</Text> }
+            {(walls.length) ?    walls : <Text>walls is empty. Is fastapi running?</Text> }
 
               </ScrollView>
 
