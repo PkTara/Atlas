@@ -1,0 +1,15 @@
+{
+    "no_walls" : 2,
+    "walls" : [
+{
+                    "id" : "1",
+                    "title" : "Baby Ladder",
+                    "grade" : "V1"
+                 },
+                 {
+                    "id" : "4",
+                    "title" : "Skin Ripper",
+                    "grade" : "V8"
+                 }
+
+               ]}

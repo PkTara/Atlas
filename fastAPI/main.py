@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import logging
 import sys
 from pydantic import BaseModel
 import json
@@ -23,8 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logger = logging.getLogger("uvicorn.error")
-# logger.setLevel(logging.DEBUG)
 
 def log(message):
     with open("log.txt", "a") as file:
@@ -34,6 +31,7 @@ def log(message):
 
 with open("wallList.json", 'r') as file:
     wallList = json.load(file)
+    no_walls = wallList["no_walls"]
 
 @app.get("/")
 async def root():
@@ -82,23 +80,27 @@ class formData(BaseModel):
 @app.post("/upload/")
 async def upload(data: formData):
     # Do something with the received data
-    log("upload/")
-
-    # try:
-    #     wallInfo = data.data
-    # except json.JSONDecodeError as e:
-    #     raise HTTPException(status_code=422, detail="invalid JSON")
-    #     # return {"message" : "Invalid JSON syntax:" + e}
 
     wallInfo = data.data
 
     log(f"Received: {wallInfo.title}")
 
-    wallList.append({
-                    "id" : "5",
-                    "title" : wallInfo.title,
-                    "grade" : wallInfo.grade
-                 },)
+    log("Attempting to write!")
+
+    # wallList["walls"].append(f'''{{
+    #                 "id" : {no_walls},
+    #                 "title" : {wallInfo.title},
+    #                 "grade" : {wallInfo.grade}
+    #                 }}''')
+    # no_walls += 1
+    wallList["no_walls"] += 1
+    wallList["walls"].append({
+        "id" : no_walls,
+        "title" : wallInfo.title,
+        "grade" : wallInfo.grade
+    })
+    with open("wallList.json", 'w') as file:
+        file.write(json.dumps(wallList))
     
     # Example: Processing and returning a response
     return {"message" : "Data Recieved!"}

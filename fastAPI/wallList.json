@@ -1,13 +1,1 @@
-{"walls" : [
-{
-                    "id" : "1",
-                    "title" : "Baby Ladder",
-                    "grade" : "V1"
-                 },
-                 {
-                    "id" : "4",
-                    "title" : "Skin Ripper",
-                    "grade" : "V8"
-                 }
-
-               ]}
+{"no_walls": 3, "walls": [{"id": "1", "title": "Baby Ladder", "grade": "V1"}, {"id": "4", "title": "Skin Ripper", "grade": "V8"}, {"id": 2, "title": "Skin killer", "grade": "V5"}, {"id": 2, "title": "Skin killer", "grade": "V5"}]}
