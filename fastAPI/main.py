@@ -1,7 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 import sys
+from pydantic import BaseModel
+import json
+import datetime
 
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -25,7 +28,7 @@ logger = logging.getLogger("uvicorn.error")
 
 def log(message):
     with open("log.txt", "a") as file:
-        file.write(message + "\n")
+        file.write(str(datetime.datetime.now()) +   ": " + message + "\n")
 
 
 
@@ -44,7 +47,7 @@ wallList = [
 
 @app.get("/")
 async def root():
-    logger.debug("hey there!")
+    log("hey there!")
     
 
     return {"message": "Hello World",
@@ -74,15 +77,36 @@ async def get_image(id: str=1):
 
 # =========== POSTING =============
 
+class wallInfoData(BaseModel):
+    title: str
+    grade: str
+
+class formData(BaseModel):
+    user_id: int
+    username: str
+    data: wallInfoData
+    # where data will have .title, .grade
+    # .. dunno how to mandate it having a .title/.grade
+
 @app.post("/upload/")
-async def upload(data):
+async def upload(data: formData):
     # Do something with the received data
-    log(f"Received: {data}")
+    log("upload/")
+
+    # try:
+    #     wallInfo = data.data
+    # except json.JSONDecodeError as e:
+    #     raise HTTPException(status_code=422, detail="invalid JSON")
+    #     # return {"message" : "Invalid JSON syntax:" + e}
+
+    wallInfo = data.data
+
+    log(f"Received: {wallInfo.title}")
 
     wallList.append({
                     "id" : "5",
-                    "title" : "Skin Ripper",
-                    "grade" : "V8"
+                    "title" : wallInfo.title,
+                    "grade" : wallInfo.grade
                  },)
     
     # Example: Processing and returning a response
