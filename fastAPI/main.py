@@ -32,26 +32,17 @@ def log(message):
 
 
 
-wallList = [
-                 {
-                    "id" : "1",
-                    "title" : "Baby Ladder",
-                    "grade" : "V1"
-                 },
-                 {
-                    "id" : "4",
-                    "title" : "Skin Ripper",
-                    "grade" : "V8"
-                 },
-             ]
+with open("wallList.json", 'r') as file:
+    wallList = json.load(file)
 
 @app.get("/")
 async def root():
-    log("hey there!")
+
     
 
     return {"message": "Hello World",
-             "wallList" : wallList
+             "wallList" : wallList["walls"]
+
              
              }
 
