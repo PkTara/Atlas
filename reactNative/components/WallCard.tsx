@@ -1,6 +1,4 @@
 import { Link } from "expo-router";
-import { NavigationContainer } from "@react-navigation/native";
-import invididualWallPage from "@/app/(tabs)/IndividualWallPage";
 import { StyleSheet, View, Text, Image, Pressable} from "react-native"
 
 type Props = {
@@ -10,11 +8,14 @@ type Props = {
 }
 
 export default function WallCard({label, url, id}: Props) {
-  console.log('http://127.0.0.1:8000/getImage/' + id)
+  // console.log('http://127.0.0.1:8000/getImage/' + id)
     
     return(
         <View style={styles.container}>
-          <Link href="/individualWallPage" asChild>
+          <Link href={{
+            pathname: "./individualWallPage/?id=" + id, // The current query params isn't ideal, should eventually switch to dynamic segments. But it works, god damn it, it works!
+            // params: {id : id}
+          }} asChild>
           <Pressable 
           // onPress={()=>
             // NavigationPreloadManager.navigate("./individualWallPage", {"cool data" : 5})
