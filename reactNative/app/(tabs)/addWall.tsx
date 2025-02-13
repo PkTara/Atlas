@@ -11,17 +11,19 @@ export default function DashboardScreen() {
     const [notes, setNotes] = useState("")
     const [rating, setRating] = useState("")
     const [isSent, setIsSent] = useState(false)
+    const [grade, setGrade] = useState("")
     
 
     const handleSubmit = (event) => {
         console.log("yay it works!")
         event.preventDefault(); // preventDefault? like, preventing HTML default?
-        alert(`You've entered: ${notes} | ${rating}`)
+        alert(`You've entered: ${notes} | ${rating} | ${title}`)
 
         var wallData = {
             "title" : title,
             "notes" : notes,
             "rating" : rating,
+            "grade" : grade,
             "isSent" : isSent
         }
 
@@ -42,10 +44,11 @@ export default function DashboardScreen() {
 
     }
 
-    return(<>
+    return(<View style={styles.container}>
 
-        <form onSubmit={handleSubmit}>
+        <form style={styles.box} onSubmit={handleSubmit}>
 
+    
     
 
         <label>Notes: <input
@@ -73,6 +76,15 @@ export default function DashboardScreen() {
                 setRating(e.target.value) 
             }}></input>
 
+        <label>Grade: <input
+            type="text"
+            value={grade}
+            id="grade"
+            onChange={(e) => {
+                setGrade(e.target.value) 
+            }} />
+             </label>
+
         {/* <label>Sent: </label> <input 
         type="checkbox"
         value={isSent}
@@ -89,5 +101,23 @@ export default function DashboardScreen() {
         </form>
 
 
-        </>
+        </View>
     )}
+
+    const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          // backgroundColor: '#25292e',
+          backgroundImage: "linear-gradient( #9B7EBD, #4C3D5C)",
+          justifyContent: 'center',
+          alignItems: 'stretch',
+        },
+        text: {
+          color: '#fff',
+        },
+        box: {
+            flex: 1,
+            justifyContent: 'center',
+          alignItems: 'stretch',
+        }
+      });

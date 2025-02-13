@@ -1,4 +1,6 @@
 import { Text, View, StyleSheet } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import TextBox from '@/components/TextBox'; 
 import LinkButton from "@/components/LinkButton"
 import { Link } from "expo-router"

@@ -40,26 +40,27 @@ async def root():
 
     return {"message": "Hello World",
              "wallList" : wallList["walls"]
-
-             
              }
 
-images = Path("./wallPhotos/")
+@app.get("/getWallInfo")
+async def get_wall_info(id: str):
 
-@app.get("/getImage/1")
-async def get_image():
-    imagePath = images + Path("climbing3.jpg")
-    if not imagePath.is_file():
-        return ({"Path not found!"})
-    return FileResponse(imagePath)
+    log(str(id))
+    for wall in wallList["walls"]: # yes, this is horribly inefficient... But I don't want to rewrite the json and break everything, so this'll have to do until I implement an actual database
+        if wall["id"] == id:
+            return(wall)
 
+    else:
+        raise HTTPException(status_code=404, detail="No wall with that ID found in database") # Ayyy, my first 404 !
 
 
 @app.get("/getImage/")
 async def get_image(id: str=1):
     imagePath = Path("./processing/processed_images/" + id + ".jpg")
     if not imagePath.is_file():
-        return ({"Path not found!"})
+        imagePath = Path("./wallPhotos/climbing3.jpg") # Gives a default image
+        # return ({"Path not found!"})
+
     return FileResponse(imagePath)
 
 
@@ -68,7 +69,10 @@ async def get_image(id: str=1):
 
 class wallInfoData(BaseModel):
     title: str
+    notes: str
+    rating: str
     grade: str
+    isSent: bool
 
 class formData(BaseModel):
     user_id: int
@@ -78,10 +82,10 @@ class formData(BaseModel):
     # .. dunno how to mandate it having a .title/.grade
 
 @app.post("/upload/")
-async def upload(data: formData):
+async def upload(data: wallInfoData):
     # Do something with the received data
 
-    wallInfo = data.data
+    wallInfo = data
 
     log(f"Received: {wallInfo.title}")
 
@@ -95,9 +99,11 @@ async def upload(data: formData):
     # no_walls += 1
     wallList["no_walls"] += 1
     wallList["walls"].append({
-        "id" : no_walls,
+        "id" : str(no_walls),
         "title" : wallInfo.title,
-        "grade" : wallInfo.grade
+        "grade" : wallInfo.grade,
+        "rating": wallInfo.rating,
+        "notes": wallInfo.notes
     })
     with open("wallList.json", 'w') as file:
         file.write(json.dumps(wallList))

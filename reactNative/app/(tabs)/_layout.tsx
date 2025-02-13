@@ -26,6 +26,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -38,7 +39,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="statistics"
         options={{
           title: 'Statistics',
@@ -46,7 +47,7 @@ export default function TabLayout() {
             <Ionicons name={focused ? 'analytics-sharp' : 'analytics-outline'} color={color} size={24} />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
 }
