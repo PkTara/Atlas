@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DifficultyFilters from '@/components/DifficultyFilters';
 import WallCard from '@/components/WallCard';
+import { SERVER_ADDRESS } from '../CONSTANTS';
 // import Button from '@/components/Button';
 
 type Wall = {
@@ -19,7 +20,7 @@ export default function WallList() {
   const getWalls = async () => {
     try {
       // const response = await fetch("https://reactnative.dev/movies.json");
-      const response = await fetch("http://127.0.0.1:8000/");
+      const response = await fetch(SERVER_ADDRESS);
       const json = await response.json();
       // console.log(json)
       setData(json.wallList);

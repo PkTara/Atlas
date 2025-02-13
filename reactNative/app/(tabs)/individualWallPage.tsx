@@ -4,6 +4,7 @@ import { useLocalSearchParams } from 'expo-router/build/hooks';
 import { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
+import { SERVER_ADDRESS } from '../CONSTANTS';
 
 // type Props = {
 //   title: string;
@@ -30,7 +31,7 @@ export default function InvididualWallPage() {
 
   const getWalls = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/getWallInfo/?id=" + id);
+      const response = await fetch(SERVER_ADDRESS + "getWallInfo/?id=" + id);
       const json = await response.json();
       // console.log(json)
       setData(json);
@@ -63,7 +64,7 @@ export default function InvididualWallPage() {
           <Image style={styles.image}
                           // source={require('@/assets/images/climbing2.jpeg')}
                           source={{
-                            uri: 'http://127.0.0.1:8000/getImage?id=' + id}}
+                            uri: SERVER_ADDRESS + 'getImage?id=' + id}}
                           />
 
           <Text style={styles.text}>Grade: {data.grade}</Text>
