@@ -4,36 +4,20 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DifficultyFilters from '@/components/DifficultyFilters';
 import WallCard from '@/components/WallCard';
 import { SERVER_ADDRESS } from '../CONSTANTS';
+import { fetchAllWalls, IWallData } from '../../utils/server';
 // import Button from '@/components/Button';
 
-type Wall = {
-  id: string;
-  title: string;
-  releaseYear: string;
-};
 
 export default function WallList() {
   // const [value, setValue] = useState([]);
   const [isLoading, setLoading] = useState(true)
-  const [data, setData] = useState<Wall[]>([])
+  const [data, setData] = useState<IWallData[]>([])
 
-  const getWalls = async () => {
-    try {
-      // const response = await fetch("https://reactnative.dev/movies.json");
-      const response = await fetch(SERVER_ADDRESS);
-      const json = await response.json();
-      // console.log(json)
-      setData(json.wallList);
-    } catch (error) {
-      console.error(error)
-    }
-    finally {
-      setLoading(false);
-    }
-    };
   
     useEffect(() => {
-      getWalls();
+      fetchAllWalls()
+        .then(setData)
+        .catch(error => console.error("Error fetching data:", error));
     }, [])
 
     const walls = [];

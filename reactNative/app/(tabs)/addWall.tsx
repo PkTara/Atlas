@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, ActivityIndicator, FlatList, ScrollView, Image, Button } from 'react-native';
 import { useState } from "react";
 import { SERVER_ADDRESS} from '../CONSTANTS';
+import { postWall } from '../../utils/server';
 
 
 
@@ -28,16 +29,17 @@ export default function DashboardScreen() {
             "isSent" : isSent
         }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(wallData)
-        };
-        // fetch("http://127.0.0.1:8000/upload/", requestOptions)
-        fetch(SERVER_ADDRESS + "upload/", requestOptions)
-            .then(response => response.json())
-            .then(data => {console.log("Data Recieved after posting")
-                console.log(data)} );
+        postWall(wallData);
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(wallData)
+        // };
+        // // fetch("http://127.0.0.1:8000/upload/", requestOptions)
+        // fetch(SERVER_ADDRESS + "upload/", requestOptions)
+        //     .then(response => response.json())
+        //     .then(data => {console.log("Data Recieved after posting")
+        //         console.log(data)} );
 
         
 

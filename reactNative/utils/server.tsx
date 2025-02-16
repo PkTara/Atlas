@@ -1,6 +1,6 @@
-import { SERVER_ADDRESS } from "../CONSTANTS";
+import { SERVER_ADDRESS } from "../app/CONSTANTS";
 
-interface IWallData {
+export interface IWallData {
     "title" : string,
     "notes" : string,
     "rating" : string,
@@ -8,7 +8,7 @@ interface IWallData {
     "isSent" : boolean
 }
 
-function postWall(wallData : IWallData) {
+export function postWall(wallData : IWallData) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -21,20 +21,20 @@ function postWall(wallData : IWallData) {
             console.log(data)} );
 }
 
-function fetchWallInfo(id:string) {
+export function fetchWallInfo(id:string) : Promise<IWallData> {
 
-    fetch(SERVER_ADDRESS + "getWallInfo/?id=" + id)
+    return fetch(SERVER_ADDRESS + "getWallInfo/?id=" + id)
             .then(response => response.json())
             .then(data => {console.log("Data Recieved after posting");
                 return(data)} );
 
 }
 
-function fetchAllWalls() {
+export function fetchAllWalls() : Promise<IWallData[]> {
 
-    fetch(SERVER_ADDRESS)
+    return fetch(SERVER_ADDRESS)
             .then(response => response.json())
-            .then(data => {console.log("Data Recieved after posting");
-                return(data)} );
+            .then(data => {console.log("Data Recieved after posting", data.wallList);
+                return(data.wallList)} );
 
 }

@@ -5,15 +5,8 @@ import { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import { SERVER_ADDRESS } from '../CONSTANTS';
+import { fetchWallInfo } from '../../utils/server';
 
-// type Props = {
-//   title: string;
-//   url: string;
-//   id: string;
-//   grade: string;
-//   notes: string;
-
-// }
 
 type Props = {
   route: {
@@ -24,28 +17,16 @@ type Props = {
 }
 
 export default function InvididualWallPage() {
-  const {id} = useLocalSearchParams(); 
+  const id = useLocalSearchParams().id; // params can return a string or a list of strings.. given that I eventually want this to use dynamic segmenting, I'll leave this for now
 
   const [isLoading, setLoading] = useState(true)
   const [data, setData] = useState()
-
-  const getWalls = async () => {
-    try {
-      const response = await fetch(SERVER_ADDRESS + "getWallInfo/?id=" + id);
-      const json = await response.json();
-      // console.log(json)
-      setData(json);
-    } catch (error) {
-      console.error(error)
-    }
-    finally {
-      setLoading(false);
-    }
-    };
   
-    useEffect(() => {
-      getWalls();
-    }, [])
+     useEffect(() => {
+          fetchWallInfo(id)
+            .then(setData)
+            .catch(error => console.error("Error fetching data:", error));
+        }, [])
 
 
     if (data == undefined || data.title == undefined) {
